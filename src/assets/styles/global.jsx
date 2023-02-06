@@ -1,17 +1,67 @@
 import { createGlobalStyle } from "styled-components";
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
+  :root {
+  --color-primary: #FF577F;
+  --color-primary-focus: #FF427F;
+  --color-primary-negative: #59323F;
 
+  --grey-0: #F8F9FA;
+  --grey-1:#868E96;
+  --grey-2: #343B41;
+  --grey-3: #212529;
+  --grey-4: #121214;
 
+  --sucess: #3FE864;
+  --negative: #E83F5B;
 
-  /* :root {
+  --title: 16px;
+  --title: bold;
+  --headline: 12px;
+  /* --headline: regular */
+  --headlineBold: 12px;
+  --headlineItalic: 12px;
+  --headlineBold: bold;
+  --headlineItalic: italic;
 
-    Lugar onde serão declaradas as variaveis
-   
-   } */
-   
-   /* Outros estilos globais podem ser declarados aqui */
-   
+  }
+#root{
+  display: flex;
+  flex-direction: column;  
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: var(--grey-4)
+ }
+
+  html {
+    height: 100%;
+    width: 100%;
+  }
+  body {
+    height: 100%;
+    width: 100%;
+ 
+    font-family: "inter", sans-serif;
+  }
+
+button{
+  cursor: pointer;
+}
+
+  .main__container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 16px;
+    max-width: 500px;
+    background-color: var(--grey-4)
+  
+
+  }
+
 
 `;
 export default GlobalStyle;
