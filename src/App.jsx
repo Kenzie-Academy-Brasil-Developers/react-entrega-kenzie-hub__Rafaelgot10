@@ -1,25 +1,27 @@
-import { Routes, Route } from "react-router-dom";
-import { Login } from "./assets/components/pages/login/login.jsx";
-import { Home } from "./assets/components/pages/home/home.jsx";
-import { Register } from "./assets/components/pages/register/register.jsx";
-import { Dash } from "./assets/components/pages/dash/dash.jsx";
-import { NotFound } from "./assets/components/pages/notFound/notFound.jsx";
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import React from "react";
+import { AppRoutes } from "./assets/routes/index";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <>
       <div className="main__container">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/dash" element={<Dash />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppRoutes />
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <ToastContainer />
     </>
   );
 }

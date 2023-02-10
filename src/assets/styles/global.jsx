@@ -29,17 +29,17 @@ export const GlobalStyle = createGlobalStyle`
   display: flex;
   flex-direction: column;  
     align-items: center;
-    height: 100%;
+    min-height: 100vh;
     width: 100%;
     background-color: var(--grey-4)
  }
 
   html {
-    height: 100%;
+    min-height: 100vh;
     width: 100%;
   }
   body {
-    height: 100%;
+    min-height: 100vh;
     width: 100%;
  
     font-family: "inter", sans-serif;
@@ -54,9 +54,9 @@ button{
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     padding: 0 16px;
-    max-width: 500px;
+    
     background-color: var(--grey-4)
   
 

@@ -5,6 +5,7 @@ export const StyleLogin = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: 500px;
   padding-top: 64px;
   padding-bottom: 16px;
 
@@ -26,6 +27,13 @@ export const StyleLogin = styled.div`
     background-color: var(--grey-3);
   }
 
+  form > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+  }
+
   form > h2 {
     padding: 16px 0;
     width: 100%;
@@ -33,7 +41,7 @@ export const StyleLogin = styled.div`
     color: white;
   }
 
-  form > input {
+  form > div > input {
     width: 100%;
     padding: 16px;
     border-radius: 5px;
@@ -43,16 +51,20 @@ export const StyleLogin = styled.div`
     border: solid 2px var(--grey-2);
   }
 
-  form > input::placeholder {
+  form > div > input::placeholder {
     color: white;
   }
 
-  form > input:hover {
+  form > div > input:hover {
     border: solid 2px var(--grey-1);
   }
 
-  form > label {
+  form > div > label {
     color: white;
+  }
+
+  form > div > span {
+    color: var(--negative);
   }
 
   form > span {
@@ -72,8 +84,8 @@ export const StyleLogin = styled.div`
     background-color: var(--color-primary);
   }
 
-  form > .register {
-    background-color: var(--grey-1);
+  form > button:hover {
+    background-color: var(--color-primary-focus);
   }
 
   .link {
@@ -85,5 +97,9 @@ export const StyleLogin = styled.div`
     color: white;
     background-color: var(--grey-1);
     cursor: pointer;
+  }
+
+  link:hover {
+    background-color: var(--grey-4);
   }
 `;

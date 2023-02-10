@@ -7,7 +7,7 @@ export function Home() {
       <h1>Henzie Hub</h1>
       <p>
         Uma entrega semanal da Kenzie Academy Brasil que será refatorada
-        posteriormente
+        posteriormente :
       </p>
       <Link className="link" to="/login">
         {" "}

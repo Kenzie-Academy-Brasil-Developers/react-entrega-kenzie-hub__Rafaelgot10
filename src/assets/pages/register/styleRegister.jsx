@@ -5,6 +5,7 @@ export const StyleRegister = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: 500px;
   padding-top: 64px;
   padding-bottom: 16px;
 
@@ -28,8 +29,18 @@ export const StyleRegister = styled.div`
     cursor: pointer;
   }
 
+  .link:hover {
+    background-color: var(--grey-3);
+  }
+
   h1 {
     color: var(--color-primary);
+  }
+
+  form > span {
+    width: 100%;
+    text-align: center;
+    color: var(--grey-0);
   }
 
   form > h2 {
@@ -39,10 +50,9 @@ export const StyleRegister = styled.div`
     color: var(--grey-0);
   }
 
-  form > span {
+  form > div > span {
     width: 100%;
-    text-align: center;
-    color: var(--grey-1);
+    color: var(--negative);
   }
 
   form {
@@ -56,7 +66,14 @@ export const StyleRegister = styled.div`
     background-color: var(--grey-3);
   }
 
-  form > input {
+  form > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  form > div > input {
     width: 100%;
     padding: 16px;
     border-radius: 5px;
@@ -66,19 +83,20 @@ export const StyleRegister = styled.div`
     border: solid 2px var(--grey-2);
   }
 
-  form > input::placeholder {
+  form > div > input::placeholder {
     color: var(--grey-1);
   }
 
-  form > input:hover {
+  form > div > input:hover {
     border: solid 2px var(--grey-1);
+    background-color: var(--grey-2);
   }
 
-  form > label {
+  form > div > label {
     color: var(--grey-0);
   }
 
-  form > select {
+  form > div > select {
     width: 100%;
     padding: 16px;
     border-radius: 5px;
@@ -86,6 +104,11 @@ export const StyleRegister = styled.div`
     background-color: var(--grey-2);
     color: var(--grey-1);
     border: solid 2px var(--grey-2);
+  }
+
+  form > div > select:hover {
+    border: solid 2px var(--grey-1);
+    background-color: var(--grey-2);
   }
 
   form > button {
@@ -94,5 +117,9 @@ export const StyleRegister = styled.div`
     width: 100%;
     color: white;
     background-color: var(--color-primary-negative);
+  }
+
+  form > button:hover {
+    background-color: var(--color-primary);
   }
 `;

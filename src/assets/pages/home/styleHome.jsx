@@ -5,6 +5,7 @@ export const StyleHome = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 64px;
+  max-width: 600px;
 
   h1 {
     font-size: 32px;
