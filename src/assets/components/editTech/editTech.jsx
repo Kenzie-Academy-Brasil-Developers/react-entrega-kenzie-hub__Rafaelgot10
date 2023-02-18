@@ -4,14 +4,25 @@ import { api } from "../../services/api.jsx";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../provider/userContext.jsx";
 
 export function EditTech() {
   let token = localStorage.getItem("token");
   const navigate = useNavigate();
   const { techid } = useParams();
   const { techtitle } = useParams();
-  const { register, handleSubmit } = useForm({});
 
+  const { techs, setTechs, works, setWorks, user, setUser } =
+    useContext(UserContext);
+
+  const tech = techs.filter((tech) => tech.id == techid);
+
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      status: tech[0].status,
+    },
+  });
   const onSubmitFunction = (data) => {
     editTech(data);
   };
@@ -24,8 +35,12 @@ export function EditTech() {
         },
       });
 
+      const newTechs = techs.filter((tech) => tech.id != techid);
+
+      setTechs(newTechs);
+
       closeModal();
-      toast.success("Tecnologia excluida com sucesso");
+      toast.success(`Tecnologia ${tech[0].title} excluida com sucesso`);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -39,8 +54,18 @@ export function EditTech() {
         },
       });
 
+      const newTechs = techs.map((tech) => {
+        if (tech.id == techid) {
+          return response.data;
+        } else {
+          return tech;
+        }
+      });
+
+      setTechs(newTechs);
+
       closeModal();
-      toast.success("Tecnologia editada com sucesso");
+      toast.success(`Tecnologia ${response.data.title} editada com sucesso`);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -64,7 +89,7 @@ export function EditTech() {
         </div>
 
         <div>
-          <label htmlFor="title">Novo status da Tecnologia</label>
+          <label htmlFor="status">Novo status da Tecnologia</label>
           <select {...register("status")} id="status">
             <option>Iniciante</option>
             <option>Intermediário</option>

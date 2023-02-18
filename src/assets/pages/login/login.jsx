@@ -6,6 +6,7 @@ import { api } from "../../services/api.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export function Login() {
   const formSchema = yup.object().shape({
@@ -14,6 +15,14 @@ export function Login() {
   });
 
   const navigate = useNavigate();
+
+  let token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token != null) {
+      navigate("/dash");
+    }
+  }, []);
 
   const {
     register,
@@ -26,8 +35,6 @@ export function Login() {
   });
 
   const onSubmitFunction = (data) => {
-    console.log(data);
-
     loginUser(data);
   };
 
@@ -35,9 +42,10 @@ export function Login() {
     try {
       const response = await api.post("/sessions  ", data);
 
-      console.log(response);
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", response.data.user.id);
+
         navigate("/dash");
       }
     } catch (error) {

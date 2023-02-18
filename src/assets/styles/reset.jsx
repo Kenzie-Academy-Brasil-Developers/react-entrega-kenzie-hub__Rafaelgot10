@@ -12,4 +12,3 @@ box-sizing: border-box;
 
 
 `;
-export default Reset;

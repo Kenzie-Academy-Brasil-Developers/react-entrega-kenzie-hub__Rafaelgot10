@@ -1,34 +1,66 @@
-import { Link } from "react-router-dom";
-import { StyleRegister } from "./styleRegister.jsx";
+import { Header } from "../../components/header/header";
+import { useState, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { api } from "../../services/api.jsx";
+import { userFormSchema } from "./validations.jsx";
 import { toast } from "react-toastify";
-import { registerFormSchema } from "./validations.jsx";
+import { UserStyled } from "./styleEditUser";
+import { UserContext } from "../../provider/userContext";
+import { useContext } from "react";
 
-export function Register() {
+export function EditUser() {
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  let token = localStorage.getItem("token");
+
+  const { setAvatar } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token == null) {
+      navigate("/login");
+
+      toast.error("Você deve estar logado para acessar essa página !!");
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
+    defaultValues: {
+      name: user.name,
+      bio: user.bio,
+      contact: user.contact,
+      course_module: user.course_module,
+    },
     mode: "onBlur",
-    resolver: yupResolver(registerFormSchema),
+    resolver: yupResolver(userFormSchema),
   });
 
   const onSubmitFunction = (data) => {
-    reset();
-    createUser(data);
+    updateUser(data);
   };
 
-  async function createUser(data) {
+  async function updateUser(data) {
     try {
-      const response = await api.post("/users ", data);
-      toast.success("Usuário cadastrado com sucesso");
+      const response = await api.put("/profile ", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Usuário Editado com sucesso");
+
+      localStorage.setItem("user", JSON.stringify(response.data));
+
+      navigate("/dash/user");
     } catch (error) {
-      if (error.response.data.message == "Email already exists") {
-        toast.error("Email já cadastrado meu bom, tenta outro ai!!");
+      if (error.response.data.message == "Old password does not match.") {
+        toast.error("Senha anterior incorreta");
       } else {
         toast.error(error.response.data.message);
       }
@@ -36,18 +68,12 @@ export function Register() {
   }
 
   return (
-    <StyleRegister>
-      <div>
-        <h1>Kenzie Hub</h1>
-        <Link className="link" to="/login">
-          {" "}
-          Voltar{" "}
-        </Link>
-      </div>
+    <UserStyled>
+      <Header />
 
       <form onSubmit={handleSubmit(onSubmitFunction)}>
-        <h2>Crie sua conta</h2>
-        <span>Rapido e gratis, vamos nessa</span>
+        <h2>Edição de usuario </h2>
+
         <div>
           <label htmlFor="name">Nome</label>
           <input
@@ -60,18 +86,18 @@ export function Register() {
         </div>
 
         <div>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="old_password">Senha atual</label>
           <input
-            id="email"
-            type="email"
-            placeholder="Digite aqui seu email"
-            {...register("email")}
+            id="old_password"
+            type="password"
+            placeholder="Digite aqui sua Senha antiga"
+            {...register("old_password")}
           />
-          <span>{errors.email?.message}</span>
+          <span>{errors.old_password?.message}</span>
         </div>
 
         <div>
-          <label htmlFor="password">Senha</label>
+          <label htmlFor="password">Nova Senha</label>
           <input
             id="password"
             type="password"
@@ -79,17 +105,6 @@ export function Register() {
             {...register("password")}
           />
           <span>{errors.password?.message}</span>
-        </div>
-
-        <div>
-          <label htmlFor="confirmPassword">Confirme sua Senha</label>
-          <input
-            id="confirmPassword"
-            type="password"
-            placeholder="Digite aqui sua Senha"
-            {...register("confirmPassword")}
-          />
-          <span>{errors.confirmPassword?.message}</span>
         </div>
 
         <div>
@@ -117,9 +132,6 @@ export function Register() {
         <div>
           <label htmlFor="modulo">Selecionar módulo</label>
           <select id="modulo" {...register("course_module")}>
-            <option disabled selected>
-              Selecione seu módulo
-            </option>
             <option>Primeiro módulo (Introdução ao Frontend)</option>
             <option>Segundo módulo (Frontend Avançado)</option>
             <option>Terceiro módulo (Introdução ao Backend)</option>
@@ -128,8 +140,8 @@ export function Register() {
           <span>{errors.course_module?.message}</span>
         </div>
 
-        <button type="submit">Cadastrar</button>
+        <button type="submit">Salvar alterações</button>
       </form>
-    </StyleRegister>
+    </UserStyled>
   );
 }

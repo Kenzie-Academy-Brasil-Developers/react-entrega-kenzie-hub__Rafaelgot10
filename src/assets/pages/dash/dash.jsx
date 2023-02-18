@@ -1,69 +1,88 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Header } from "../../components/header/header";
 import { api } from "../../services/api.jsx";
 import { StyleDash } from "./styleDash";
 import { SiAddthis } from "react-icons/si";
+import { useContext } from "react";
+import { UserContext } from "../../provider/userContext.jsx";
+// import { toast } from "react-toastify";
 
 export function Dash() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(false);
-  const [techs, setTechs] = useState([]);
+
+  const { techs, setTechs, works, setWorks, user, setUser } =
+    useContext(UserContext);
 
   let token = localStorage.getItem("token");
 
   useEffect(() => {
     if (token == null) {
-      navigate("/register");
+      navigate("/login");
+
+      // toast.error("Você deve estar logado para acessar essa página !!");
+    } else {
+      async function getUser() {
+        const userLogged = await api.get("/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        localStorage.setItem("user", JSON.stringify(userLogged.data));
+        setUser(userLogged.data);
+        setTechs(userLogged.data.techs);
+        setWorks(userLogged.data.works);
+      }
+      getUser();
     }
   }, []);
 
-  useEffect(() => {
-    async function getUser() {
-      const user = await api.get("/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUser(user.data);
-      setTechs(user.data.techs);
-    }
-    getUser();
-  }, [techs]);
-
   function newTech() {
-    navigate("/dash/techs");
+    navigate("/dash/createTech");
+  }
+
+  function newWork() {
+    navigate("/dash/createWork");
   }
 
   function editTech(title, id) {
     navigate(`/dash/tech/${title}/${id}`);
   }
 
+  function viewWork(id) {
+    navigate(`/dash/work/${id}`);
+  }
+
   return (
     <StyleDash>
-      <Outlet />;
+      <Outlet />
       <Header />
-      <div className="welcome">
-        <p>Olá, {user.name}</p>
-        <span>{user.course_module}</span>
-      </div>
-      <div className="techs">
-        <div>
-          <h2>Tecnologias</h2>
-          <SiAddthis onClick={() => newTech()} />
-        </div>
-        <div className="techs__list">
-          {user ? (
-            user.techs.length == 0 ? (
-              <>
-                <div className="tech__empty">
-                  <h1>Você ainda não cadastrou nenhuma tecnologia</h1>
-                </div>
-              </>
-            ) : (
-              <>
+
+      {user == "loading" ? (
+        <h1 className="loading">Carregando...</h1>
+      ) : (
+        <>
+          <div className="welcome">
+            <p>Olá, {user.name}</p>
+            <span>{user.course_module}</span>
+          </div>
+
+          <div className="techs">
+            <div>
+              <h2>Tecnologias</h2>
+              <SiAddthis onClick={() => newTech()} />
+            </div>
+
+            <div className="techs__list">
+              {techs.length == 0 ? (
+                <>
+                  <div className="tech__empty">
+                    <h1>Você ainda não cadastrou nenhuma tecnologia</h1>
+                  </div>
+                </>
+              ) : (
                 <ul>
-                  {user.techs.map((tech) => (
+                  {techs.map((tech) => (
                     <li
                       onClick={() => editTech(tech.title, tech.id)}
                       key={tech.id}
@@ -73,13 +92,36 @@ export function Dash() {
                     </li>
                   ))}
                 </ul>
-              </>
-            )
-          ) : (
-            <></>
-          )}
-        </div>
-      </div>
+              )}
+            </div>
+          </div>
+
+          <div className="works">
+            <div>
+              <h2>Projetos </h2>
+              <SiAddthis onClick={() => newWork()} />
+            </div>
+
+            <div className="works__list">
+              {works.length == 0 ? (
+                <>
+                  <div className="work__empty">
+                    <h1>Você ainda não cadastrou nenhum Projetos</h1>
+                  </div>
+                </>
+              ) : (
+                <ul>
+                  {works.map((work) => (
+                    <li onClick={() => viewWork(work.id)} key={work.id}>
+                      <p>{work.title}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </StyleDash>
   );
 }

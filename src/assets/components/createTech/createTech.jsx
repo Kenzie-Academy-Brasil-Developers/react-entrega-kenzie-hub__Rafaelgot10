@@ -1,11 +1,12 @@
 import { StyleCreateTech } from "./styleCreateTech.jsx";
-
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { api } from "../../services/api.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../provider/userContext.jsx";
 
 export function CreateTech() {
   const formSchema = yup.object().shape({
@@ -13,7 +14,10 @@ export function CreateTech() {
     status: yup.string().required("status obrigatório"),
   });
 
+  const { techs, setTechs } = useContext(UserContext);
+
   let token = localStorage.getItem("token");
+
   const navigate = useNavigate();
 
   const {
@@ -26,8 +30,6 @@ export function CreateTech() {
   });
 
   const onSubmitFunction = (data) => {
-    console.log(data);
-
     createTech(data);
   };
 
@@ -38,11 +40,10 @@ export function CreateTech() {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      setTechs([...techs, response.data]);
+
       closeModal();
-
-      location.reload();
-
-      console.log(response);
 
       toast.success("Tecnologia adicionada com sucesso");
     } catch (error) {
@@ -83,9 +84,6 @@ export function CreateTech() {
           <div>
             <label htmlFor="status">Selecionar status</label>
             <select {...register("status")} id="status">
-              <option disabled selected>
-                Defina o status da tecnologia
-              </option>
               <option>Iniciante</option>
               <option>Intermediário</option>
               <option>Avançado</option>

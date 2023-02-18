@@ -31,17 +31,18 @@ export const GlobalStyle = createGlobalStyle`
     align-items: center;
     min-height: 100vh;
     width: 100%;
-    background-color: var(--grey-4)
+    background-color: var(--grey-4);
  }
 
   html {
     min-height: 100vh;
     width: 100%;
+    background-color: var(--grey-4);
   }
   body {
     min-height: 100vh;
     width: 100%;
- 
+    background-color: var(--grey-4);
     font-family: "inter", sans-serif;
   }
 
@@ -56,12 +57,6 @@ button{
     width: 100%;
     min-height: 100vh;
     padding: 0 16px;
-    
     background-color: var(--grey-4)
-  
-
   }
-
-
 `;
-export default GlobalStyle;
