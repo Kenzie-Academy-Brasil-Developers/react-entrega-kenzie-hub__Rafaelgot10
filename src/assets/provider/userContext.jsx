@@ -3,7 +3,9 @@ import { createContext, useState } from "react";
 export const UserContext = createContext({});
 
 export const UserProvider = ({ children }) => {
-  const [avatar, setAvatar] = useState(null);
+  const imgProfile = localStorage.getItem("imgProfile");
+  console.log(imgProfile);
+  const [avatar, setAvatar] = useState(imgProfile);
   const [works, setWorks] = useState([]);
   const [techs, setTechs] = useState([]);
   const [user, setUser] = useState("loading");

@@ -1,22 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import { StyleHeader } from "./styledHeader";
 import { BiUserCircle } from "react-icons/bi";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { UserContext } from "../../provider/userContext";
 
 export function Header() {
   const navigate = useNavigate();
 
-  const { setTechs, setWorks, setUser } = useContext(UserContext);
+  const { setTechs, setWorks, setUser, avatar, setAvatar } =
+    useContext(UserContext);
 
   function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("user");
+    localStorage.removeItem("imgProfile");
+    setAvatar(null);
     setUser("loading");
     setWorks([]);
     setTechs([]);
-
     navigate("/login");
   }
 
@@ -48,12 +50,21 @@ export function Header() {
         <h3>Editar Perfil</h3>
       </div>
 
-      <div className="user__avatar">
-        <BiUserCircle />
-        <div>
-          <h3 onClick={() => logout()}>Sair</h3>
+      {avatar == null ? (
+        <div className="user__avatar">
+          <BiUserCircle />
+          <div>
+            <h3 onClick={() => logout()}>Sair</h3>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="user__avatar">
+          <img src={avatar} alt="" />
+          <div>
+            <h3 onClick={() => logout()}>Sair</h3>
+          </div>
+        </div>
+      )}
     </StyleHeader>
   );
 }

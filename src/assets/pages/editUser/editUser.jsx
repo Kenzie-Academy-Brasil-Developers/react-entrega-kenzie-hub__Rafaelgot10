@@ -1,5 +1,5 @@
 import { Header } from "../../components/header/header";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -12,11 +12,8 @@ import { useContext } from "react";
 
 export function EditUser() {
   let user = JSON.parse(localStorage.getItem("user"));
-
   let token = localStorage.getItem("token");
-
   const { setAvatar } = useContext(UserContext);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +42,19 @@ export function EditUser() {
   const onSubmitFunction = (data) => {
     updateUser(data);
   };
+
+  function deleteAvatar() {
+    localStorage.removeItem("imgProfile");
+    setAvatar(null);
+    toast.success("Avatar Excluido com sucesso");
+  }
+
+  function handleAvatar(e) {
+    const url = URL.createObjectURL(e.target.files[0]);
+    localStorage.setItem("imgProfile", url);
+    setAvatar(url);
+    toast.success("Avatar Editado com sucesso");
+  }
 
   async function updateUser(data) {
     try {
@@ -138,6 +148,17 @@ export function EditUser() {
             <option>Quarto módulo (Backend Avançado)</option>
           </select>
           <span>{errors.course_module?.message}</span>
+        </div>
+
+        <div>
+          <label htmlFor="avatar">Editar Avatar</label>
+          <div>
+            <input onChange={(e) => handleAvatar(e)} id="avatar" type="file" />
+
+            <button type="button" onClick={() => deleteAvatar()}>
+              Excluir avatar
+            </button>
+          </div>
         </div>
 
         <button type="submit">Salvar alterações</button>
