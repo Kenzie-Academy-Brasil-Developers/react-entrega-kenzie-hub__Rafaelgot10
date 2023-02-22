@@ -1,12 +1,10 @@
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { api } from "../../services/api.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { UserContext } from "../../provider/userContext.jsx";
 import { StyleCreateWork } from "./styleCreateWork.jsx";
+import { WorkContext } from "../../provider/workContext.jsx";
 
 export function CreateWork() {
   const formSchema = yup.object().shape({
@@ -15,9 +13,8 @@ export function CreateWork() {
     deploy_url: yup.string().url("Deve ser uma url"),
   });
 
-  const { works, setWorks } = useContext(UserContext);
+  const { createWork } = useContext(WorkContext);
 
-  let token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const {
@@ -32,24 +29,6 @@ export function CreateWork() {
   const onSubmitFunction = (data) => {
     createWork(data);
   };
-
-  async function createWork(data) {
-    try {
-      const response = await api.post("/users/works", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setWorks([...works, response.data]);
-
-      closeModal();
-
-      toast.success(`Projeto ${response.data.title} adicionado com sucesso`);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  }
 
   function closeModal() {
     navigate("/dash");
@@ -77,7 +56,6 @@ export function CreateWork() {
 
           <div>
             <label htmlFor="description">Descrição</label>
-
             <textarea
               rows="10"
               cols="33"

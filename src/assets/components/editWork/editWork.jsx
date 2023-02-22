@@ -1,20 +1,18 @@
 import { useForm } from "react-hook-form";
-import { api } from "../../services/api.jsx";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { StyleEditWork } from "./styleEditWork.jsx";
 import { useContext } from "react";
-import { UserContext } from "../../provider/userContext.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { WorkContext } from "../../provider/workContext.jsx";
 
 export function EditWork() {
-  let token = localStorage.getItem("token");
   const navigate = useNavigate();
   const { workid } = useParams();
+  const { worktitle } = useParams();
 
-  const { works, setWorks } = useContext(UserContext);
+  const { works, editWork, deleteWork } = useContext(WorkContext);
 
   const formSchema = yup.object().shape({
     title: yup.string(),
@@ -23,7 +21,7 @@ export function EditWork() {
   });
 
   const onSubmitFunction = (data) => {
-    editWork(data);
+    editWork(data, workid);
   };
 
   const work = works.filter((work) => work.id == workid);
@@ -41,48 +39,6 @@ export function EditWork() {
     node: "onBlur",
     resolver: yupResolver(formSchema),
   });
-
-  async function deleteWork() {
-    try {
-      const response = await api.delete(`/users/works/${workid}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      closeModal();
-      toast.success(`Projeto ${work[0].title} excluido com sucesso`);
-
-      const newWorks = works.filter((work) => work.id != workid);
-
-      setWorks(newWorks);
-    } catch (error) {}
-  }
-
-  async function editWork(data) {
-    try {
-      const response = await api.put(`/users/works/${workid}`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      closeModal();
-
-      const newWorks = works.map((work) => {
-        if (work.id == workid) {
-          return response.data;
-        } else {
-          return work;
-        }
-      });
-
-      setWorks(newWorks);
-      toast.success(`Projeto ${response.data.title} editado com sucesso`);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   function closeModal() {
     navigate("/dash");
@@ -135,7 +91,11 @@ export function EditWork() {
           <button type="submit" className="save">
             Salvar alterações
           </button>
-          <button onClick={() => deleteWork()} type="button" className="delete">
+          <button
+            onClick={() => deleteWork(workid, worktitle)}
+            type="button"
+            className="delete"
+          >
             Excluir
           </button>
         </div>

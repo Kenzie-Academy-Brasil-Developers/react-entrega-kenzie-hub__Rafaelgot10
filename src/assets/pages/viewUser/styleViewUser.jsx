@@ -35,4 +35,11 @@ export const StyleViewUser = styled.div`
     padding: 16px;
     border-radius: 5px;
   }
+
+  .tags__container > div > h2 {
+    color: var(--grey-0);
+  }
+  .tags__container > div > label {
+    color: var(--grey-1);
+  }
 `;

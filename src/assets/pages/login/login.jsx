@@ -2,10 +2,11 @@ import { StyleLogin } from "./styleLogin.jsx";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { api } from "../../services/api.jsx";
+import { useContext } from "react";
+import { UserContext } from "../../provider/userContext.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+
 import { useEffect } from "react";
 
 export function Login() {
@@ -13,6 +14,8 @@ export function Login() {
     email: yup.string().required("Email obrigatório").email("email invalido"),
     password: yup.string().required("Senha obrigatório"),
   });
+
+  const { loginUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -37,23 +40,6 @@ export function Login() {
   const onSubmitFunction = (data) => {
     loginUser(data);
   };
-
-  async function loginUser(data) {
-    try {
-      const response = await api.post("/sessions  ", data);
-
-      if (response.status === 200) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("userId", response.data.user.id);
-
-        navigate("/dash");
-      }
-    } catch (error) {
-      reset();
-      toast.error("Essa senha não combina com esse email rapaz!!");
-      console.error(error);
-    }
-  }
 
   return (
     <StyleLogin>

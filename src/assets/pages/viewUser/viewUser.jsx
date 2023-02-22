@@ -8,13 +8,6 @@ import { toast } from "react-toastify";
 export function ViewUser() {
   const [user, setUser] = useState("loading");
 
-  useEffect(() => {
-    if (token == null) {
-      navigate("/login");
-      toast.error("Você deve estar logado para acessar essa página !!");
-    }
-  }, []);
-
   let token = localStorage.getItem("token");
 
   const navigate = useNavigate();

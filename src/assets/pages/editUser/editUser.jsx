@@ -119,7 +119,9 @@ export function EditUser() {
 
         <div>
           <label htmlFor="bio">Bio</label>
-          <input
+          <textarea
+            rows="5"
+            cols="33"
             id="bio"
             type="text"
             placeholder="Fale sobre você"

@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import { StyleRegister } from "./styleRegister.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { api } from "../../services/api.jsx";
-import { toast } from "react-toastify";
+import { useContext } from "react";
+import { UserContext } from "../../provider/userContext.jsx";
 import { registerFormSchema } from "./validations.jsx";
 
 export function Register() {
+  const { createUser } = useContext(UserContext);
+
   const {
     register,
     handleSubmit,
@@ -21,19 +23,6 @@ export function Register() {
     reset();
     createUser(data);
   };
-
-  async function createUser(data) {
-    try {
-      const response = await api.post("/users ", data);
-      toast.success("Usuário cadastrado com sucesso");
-    } catch (error) {
-      if (error.response.data.message == "Email already exists") {
-        toast.error("Email já cadastrado meu bom, tenta outro ai!!");
-      } else {
-        toast.error(error.response.data.message);
-      }
-    }
-  }
 
   return (
     <StyleRegister>

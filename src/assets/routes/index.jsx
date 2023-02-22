@@ -13,28 +13,40 @@ import { ViewUser } from "../pages/viewUser/viewUser";
 import { CreateWork } from "../components/createWork/createWork";
 import { EditWork } from "../components/editWork/editWork.jsx";
 import { ViewWork } from "../components/viewWork/viewWork";
+import { TechProvider } from "../provider/techContext";
+import { WorkProvider } from "../provider/workContext";
 
 export function AppRoutes() {
   return (
     <UserProvider>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      <TechProvider>
+        <WorkProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-        <Route path="/dash" element={<Dash />}>
-          <Route path="/dash/createTech" element={<CreateTech />} />
-          <Route path="/dash/createWork" element={<CreateWork />} />
-          <Route path="/dash/tech/:techtitle/:techid" element={<EditTech />} />
-          <Route path="/dash/work/:worktitle/:workid" element={<EditWork />} />
-          <Route path="/dash/work/:workid" element={<ViewWork />} />
-        </Route>
+            <Route path="/dash" element={<Dash />}>
+              <Route path="/dash/createTech" element={<CreateTech />} />
+              <Route path="/dash/createWork" element={<CreateWork />} />
+              <Route
+                path="/dash/tech/:techtitle/:techid"
+                element={<EditTech />}
+              />
+              <Route
+                path="/dash/work/:worktitle/:workid"
+                element={<EditWork />}
+              />
+              <Route path="/dash/work/:workid" element={<ViewWork />} />
+            </Route>
 
-        <Route path="/dash/editUser" element={<EditUser />} />
-        <Route path="/dash/user" element={<ViewUser />} />
+            <Route path="/dash/editUser" element={<EditUser />} />
+            <Route path="/dash/user" element={<ViewUser />} />
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </WorkProvider>
+      </TechProvider>
     </UserProvider>
   );
 }

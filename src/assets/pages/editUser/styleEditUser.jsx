@@ -93,6 +93,17 @@ export const UserStyled = styled.div`
     background-color: var(--grey-2);
   }
 
+  form > div > textarea {
+    width: 100%;
+    padding: 16px;
+    border-radius: 5px;
+    outline: none;
+    background-color: var(--grey-2);
+    color: var(--grey-1);
+    border: solid 2px var(--grey-2);
+    font-family: "inter", sans-serif;
+  }
+
   form > div > div input {
     width: 100%;
     padding: 16px;

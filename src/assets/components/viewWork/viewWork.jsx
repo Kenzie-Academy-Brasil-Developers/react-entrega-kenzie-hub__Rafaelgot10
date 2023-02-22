@@ -1,17 +1,18 @@
 import { StyleViewWork } from "./styleViewWork.jsx";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
-import { UserContext } from "../../provider/userContext.jsx";
+
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
+import { WorkContext } from "../../provider/workContext.jsx";
 
 export function ViewWork() {
   const [work, setWork] = useState(false);
 
   const navigate = useNavigate();
   const { workid } = useParams();
-  const { works } = useContext(UserContext);
+  const { works } = useContext(WorkContext);
 
   useEffect(() => {
     if (works.length > 0) {

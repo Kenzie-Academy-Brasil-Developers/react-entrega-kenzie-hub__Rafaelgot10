@@ -6,13 +6,16 @@ import { StyleDash } from "./styleDash";
 import { SiAddthis } from "react-icons/si";
 import { useContext } from "react";
 import { UserContext } from "../../provider/userContext.jsx";
+import { TechContext } from "../../provider/techContext.jsx";
+import { WorkContext } from "../../provider/workContext.jsx";
 // import { toast } from "react-toastify";
 
 export function Dash() {
   const navigate = useNavigate();
 
-  const { techs, setTechs, works, setWorks, user, setUser } =
-    useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const { techs, setTechs } = useContext(TechContext);
+  const { works, setWorks } = useContext(WorkContext);
 
   let token = localStorage.getItem("token");
 
