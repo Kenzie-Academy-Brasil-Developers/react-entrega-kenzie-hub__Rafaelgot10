@@ -222,5 +222,9 @@ export const StyleDash = styled.div`
     .techs__list > ul {
       padding: 0 25px;
     }
+
+    .works__list > ul {
+      padding: 0 25px;
+    }
   }
 `;

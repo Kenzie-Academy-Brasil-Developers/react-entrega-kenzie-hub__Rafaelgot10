@@ -11,7 +11,7 @@ export const StyleHeader = styled.header`
   border-bottom: 1px solid var(--grey-3);
 
   h1 {
-    font-size: 1rem;
+    font-size: 2rem;
     color: var(--color-primary);
   }
 
@@ -97,7 +97,7 @@ export const StyleHeader = styled.header`
     background-color: var(--grey-2);
   }
 
-  @media (min-width: 560px) {
+  @media (min-width: 620px) {
     display: flex;
     flex-direction: row;
     align-items: center;
