@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Login } from "../pages/login/login";
-import { Home } from "../pages/home/home.jsx";
+
 import { Register } from "../pages/register/register.jsx";
 import { Dash } from "../pages/dash/dash.jsx";
 import { NotFound } from "../pages/notFound/notFound.jsx";
@@ -22,8 +22,8 @@ export function AppRoutes() {
       <TechProvider>
         <WorkProvider>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
+
             <Route path="/register" element={<Register />} />
 
             <Route path="/dash" element={<Dash />}>

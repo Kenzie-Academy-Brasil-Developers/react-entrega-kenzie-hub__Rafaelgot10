@@ -17,9 +17,9 @@ export function Header() {
     localStorage.removeItem("imgProfile");
     setAvatar(null);
     setUser("loading");
-    setWorks([]);
-    setTechs([]);
-    navigate("/login");
+    // setWorks([]);
+    // setTechs([]);
+    navigate("/");
   }
 
   function editUser() {

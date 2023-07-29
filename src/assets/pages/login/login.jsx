@@ -6,8 +6,8 @@ import { useContext } from "react";
 import { UserContext } from "../../provider/userContext.jsx";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export function Login() {
   const formSchema = yup.object().shape({
@@ -24,13 +24,16 @@ export function Login() {
   useEffect(() => {
     if (token != null) {
       navigate("/dash");
+      toast.error(
+        "Você já está logado em nossa aplicação, faça logout para encerrar a seção"
+      );
     }
   }, []);
 
   const {
     register,
     handleSubmit,
-    reset,
+
     formState: { errors },
   } = useForm({
     node: "onBlur",

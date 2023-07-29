@@ -28,7 +28,7 @@ export function Register() {
     <StyleRegister>
       <div>
         <h1>Kenzie Hub</h1>
-        <Link className="link" to="/login">
+        <Link className="link" to="/">
           {" "}
           Voltar{" "}
         </Link>

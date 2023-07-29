@@ -33,7 +33,7 @@ export const UserProvider = ({ children }) => {
     try {
       const response = await api.post("/users ", data);
       toast.success("Usuário cadastrado com sucesso");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       if (error.response.data.message == "Email already exists") {
         toast.error("Email já cadastrado meu bom, tenta outro ai!!");

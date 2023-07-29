@@ -18,7 +18,7 @@ export function EditUser() {
 
   useEffect(() => {
     if (token == null) {
-      navigate("/login");
+      navigate("/");
 
       toast.error("Você deve estar logado para acessar essa página !!");
     }

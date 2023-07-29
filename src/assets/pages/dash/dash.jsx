@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { UserContext } from "../../provider/userContext.jsx";
 import { TechContext } from "../../provider/techContext.jsx";
 import { WorkContext } from "../../provider/workContext.jsx";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export function Dash() {
   const navigate = useNavigate();
@@ -21,9 +21,9 @@ export function Dash() {
 
   useEffect(() => {
     if (token == null) {
-      navigate("/login");
+      navigate("/");
 
-      // toast.error("Você deve estar logado para acessar essa página !!");
+      toast.error("Você deve estar logado para acessar essa página !!");
     } else {
       async function getUser() {
         const userLogged = await api.get("/profile", {
